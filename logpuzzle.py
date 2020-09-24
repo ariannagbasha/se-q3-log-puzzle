@@ -13,6 +13,7 @@ Here's what a puzzle URL looks like (spread out onto multiple lines):
 HTTP/1.0" 302 528 "-" "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US;
 rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6"
 """
+__author__ = "Gabby, a.k.a ariannagbasha collabs: Sondos and Shanquel"
 
 import os
 import re
@@ -26,8 +27,21 @@ def read_urls(filename):
     extracting the hostname from the filename itself, sorting
     alphabetically in increasing order, and screening out duplicates.
     """
-    # +++your code here+++
-    pass
+    puzzle_urls = []
+    with open(filename) as f:
+        s = filename.find('_')
+        site = filename[s + 1:len(filename)]
+        for lines in f:
+            urls_search = re.search(r"GET\s(\S*)", lines)
+            if urls_search:
+                print(urls_search.group(1))
+                if 'puzzle' in urls_search.group(1):
+                    if urls_search.group(1) not in puzzle_urls:
+                        puzzle_urls.append(f'http://{site}{urls_search.group(1)}'
+    return sorted(puzzle_urls, key=lambda u: u[-13:-9]) 
+        
+    # for url in puzzle_urls:
+    #     print(url)
 
 
 def download_images(img_urls, dest_dir):
@@ -38,7 +52,8 @@ def download_images(img_urls, dest_dir):
     to show each local image file.
     Creates the directory if necessary.
     """
-    # +++your code here+++
+    # How to download all the images
+    # And use the name of the images 
     pass
 
 
