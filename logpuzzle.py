@@ -34,14 +34,11 @@ def read_urls(filename):
         for lines in f:
             urls_search = re.search(r"GET\s(\S*)", lines)
             if urls_search:
-                print(urls_search.group(1))
                 if 'puzzle' in urls_search.group(1):
                     if urls_search.group(1) not in puzzle_urls:
-                        puzzle_urls.append(f'http://{site}{urls_search.group(1)}'
-    return sorted(puzzle_urls, key=lambda u: u[-13:-9]) 
-        
-    # for url in puzzle_urls:
-    #     print(url)
+                        puzzle_urls.append(f'http://{site}{urls_search.group(1)}')
+    #TODO: USE REGEX TO FIX SORT
+    return sorted(puzzle_urls, key=lambda u: u[-8:-4]) 
 
 
 def download_images(img_urls, dest_dir):
@@ -52,9 +49,17 @@ def download_images(img_urls, dest_dir):
     to show each local image file.
     Creates the directory if necessary.
     """
-    # How to download all the images
-    # And use the name of the images 
-    pass
+    if not os.path.exists(dest_dir):
+        os.makedirs(dest_dir)
+    with open("index.html", "w") as f:
+        for i, url in enumerate(img_urls):
+            urllib.request.urlretrieve(
+                url, os.path.join(dest_dir, "img" + str(i)))
+            f.write('<img src="img' + str(i) + '.jpg">')
+        # file_index.write('<img src="img' + str(index) + '.jpg">')
+    
+    
+    
 
 
 def create_parser():
