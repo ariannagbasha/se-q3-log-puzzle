@@ -33,12 +33,15 @@ def read_urls(filename):
         site = filename[s + 1:len(filename)]
         for lines in f:
             urls_search = re.search(r"GET\s(\S*)", lines)
+            urls = urls_search.group(1)
             if urls_search:
-                if 'puzzle' in urls_search.group(1):
-                    if urls_search.group(1) not in puzzle_urls:
-                        puzzle_urls.append(f'http://{site}{urls_search.group(1)}')
-    #TODO: USE REGEX TO FIX SORT
-    return sorted(puzzle_urls, key=lambda u: u[-8:-4]) 
+                if 'puzzle' in urls:
+                    puzzle_urls.append(f'http://{site}{urls}')
+        another_puzzle = []
+        for puz in puzzle_urls:
+            if puz not in another_puzzle:
+                another_puzzle.append(puz)
+    return sorted(another_puzzle, key=lambda u: u[-8:-4])
 
 
 def download_images(img_urls, dest_dir):
@@ -52,14 +55,14 @@ def download_images(img_urls, dest_dir):
     if not os.path.exists(dest_dir):
         os.makedirs(dest_dir)
     with open("index.html", "w") as f:
+        f.write('<html><body>')
         for i, url in enumerate(img_urls):
+            image = "img" + str(i) + '.jpg'
             urllib.request.urlretrieve(
-                url, os.path.join(dest_dir, "img" + str(i)))
-            f.write(f'<img src="./{dest_dir}/img"{str(i)}.jpg">')
+                url, os.path.join(dest_dir, image))
+            f.write(f'<img src="./{dest_dir}/{image}">')
+        f.write('</body></html>')
         # file_index.write('<img src="img' + str(index) + '.jpg">')
-    
-    
-    
 
 
 def create_parser():
