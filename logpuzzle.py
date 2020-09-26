@@ -55,7 +55,7 @@ def download_images(img_urls, dest_dir):
         for i, url in enumerate(img_urls):
             urllib.request.urlretrieve(
                 url, os.path.join(dest_dir, "img" + str(i)))
-            f.write('<img src="img' + str(i) + '.jpg">')
+            f.write(f'<img src="./{dest_dir}/img"{str(i)}.jpg">')
         # file_index.write('<img src="img' + str(index) + '.jpg">')
     
     
