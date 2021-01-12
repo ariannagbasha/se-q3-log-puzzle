@@ -37,8 +37,9 @@ def read_urls(filename):
                 if 'puzzle' in urls_search.group(1):
                     if urls_search.group(1) not in puzzle_urls:
                         puzzle_urls.append(f'http://{site}{urls_search.group(1)}')
-    #TODO: USE REGEX TO FIX SORT
-    return sorted(puzzle_urls, key=lambda u: u[-8:-4]) 
+        
+
+    return sorted(list(set(puzzle_urls)), key=lambda u: u[-8:-4]) 
 
 
 def download_images(img_urls, dest_dir):
